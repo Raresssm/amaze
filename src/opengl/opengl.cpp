@@ -128,7 +128,7 @@ bool Shader::addFromSource(int type, const char *src)
     *shader = glCreateShader(type);
 
     // Check if the source already contains a #version directive
-    const char* version = "#version 120\n";
+    const char* version = "#version 150 core\n";
     const char* sources[2];
     if (strstr(src, "#version") == src) {
         // If #version is already the first line, use the source as is
