@@ -1,0 +1,3 @@
+/Users/rareslungu21/Downloads/amaze-master 2/cmake-build-debug/CMakeFiles/amaze.dir
+/Users/rareslungu21/Downloads/amaze-master 2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/rareslungu21/Downloads/amaze-master 2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

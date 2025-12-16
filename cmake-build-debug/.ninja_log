@@ -1,0 +1,25 @@
+# ninja log v6
+10	687	1765890639590478462	CMakeFiles/amaze.dir/src/imgui/imgui_impl_sdl.cpp.o	60bd052c91b7f9ce
+688	1982	1765890640268323419	CMakeFiles/amaze.dir/src/imgui/imgui_widgets.cpp.o	32e7febdb88a7954
+532	1442	1765890640112884063	CMakeFiles/amaze.dir/src/imgui/imgui_stdlib.cpp.o	6f62e8c92b52554c
+6	993	1765890639586973267	CMakeFiles/amaze.dir/src/imgui/imgui_draw.cpp.o	d08a37aa9a6d8186
+894	2077	1765890640474280120	CMakeFiles/amaze.dir/src/imgui/myimgui.cpp.o	c9379852a254ffcf
+994	2815	1765890640574846522	CMakeFiles/amaze.dir/src/main.cpp.o	f4371e122b23fa1d
+1	2875	1765890639581919495	CMakeFiles/amaze.dir/src/amaze.cpp.o	863b83705856dba6
+9	530	1765890639589573299	CMakeFiles/amaze.dir/src/imgui/imgui_impl_opengl3.cpp.o	493f1a9466976f9c
+3	893	1765890639583974529	CMakeFiles/amaze.dir/src/imgui/imgui_demo.cpp.o	d14ac8be39d4295d
+2	1502	1765890639583033866	CMakeFiles/amaze.dir/src/imgui/imgui.cpp.o	b5ccb77c9a233f54
+7	2111	1765890893781774619	CMakeFiles/amaze.dir/src/opengl/opengl.cpp.o	7a8d6a152cbac800
+2111	2223	1765890895885770624	amaze	c37d15a0e323bc07
+6	498	1765890979121027351	CMakeFiles/amaze.dir/src/imgui/myimgui.cpp.o	c9379852a254ffcf
+498	602	1765890979613532712	amaze	c37d15a0e323bc07
+9	2173	1765891020338018804	CMakeFiles/amaze.dir/src/opengl/opengl.cpp.o	7a8d6a152cbac800
+2174	2281	1765891022503046402	amaze	c37d15a0e323bc07
+8	779	1765891144182270830	CMakeFiles/amaze.dir/src/imgui/myimgui.cpp.o	c9379852a254ffcf
+779	892	1765891144952664728	amaze	c37d15a0e323bc07
+6	346	1765891282862516063	CMakeFiles/amaze.dir/src/imgui/imgui_impl_opengl3.cpp.o	493f1a9466976f9c
+346	505	1765891283202683897	amaze	c37d15a0e323bc07
+14	2182	1765891590565764494	CMakeFiles/amaze.dir/src/opengl/opengl.cpp.o	7a8d6a152cbac800
+2183	2294	1765891592734634828	amaze	c37d15a0e323bc07
+8	2106	1765892498457997641	CMakeFiles/amaze.dir/src/opengl/opengl.cpp.o	7a8d6a152cbac800
+2106	2218	1765892500556748194	amaze	c37d15a0e323bc07
