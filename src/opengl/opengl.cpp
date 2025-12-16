@@ -1,4 +1,5 @@
 #include "opengl.h"
+#include <stdexcept>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -524,20 +525,37 @@ void Model::load(const string &path)
 
 OpenGLWindow::OpenGLWindow() : m_running(false), m_open(true)
 {
-    SDL_Init(SDL_INIT_VIDEO);
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        std::cerr << "Unable to initialize SDL: " << SDL_GetError() << std::endl;
+        throw std::runtime_error("SDL initialization failed");
+    }
 
+#if defined(__APPLE__)
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+#endif
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
     m_window = SDL_CreateWindow("window", 100, 100, 800, 600,
-	SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+        SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    if (!m_window) {
+        std::cerr << "Unable to create SDL window: " << SDL_GetError() << std::endl;
+        throw std::runtime_error("SDL window creation failed");
+    }
+
     m_context = SDL_GL_CreateContext(m_window);
-    
+    if (!m_context) {
+        std::cerr << "Unable to create GL context: " << SDL_GetError() << std::endl;
+        throw std::runtime_error("OpenGL context creation failed");
+    }
+
     glewExperimental = GL_TRUE;
     auto init_res = glewInit();
     if(init_res != GLEW_OK)
     {
-	std::cout << glewGetErrorString(glewInit()) << std::endl;
+        std::cerr << "GLEW initialization failed: " << glewGetErrorString(init_res) << std::endl;
+        throw std::runtime_error("GLEW initialization failed");
     }
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
