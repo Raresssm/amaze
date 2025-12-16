@@ -1,15 +1,12 @@
-#version 120
+#version 150 core
 
-// Updated GLSL version for OpenGL 2.1 compatibility
-// Removed unsupported features like layout and flat
+layout (location = 0) in vec3 position;   // the position variable has attribute position 0
 
-attribute vec3 position;   // the position variable has attribute position 0
-
-uniform mat4 model;
+uniform mat4 uModel;
 uniform mat4 view;
 uniform mat4 projection;
 
 void main()
 {
-	gl_Position = projection * view * model * vec4(position, 1.0);
+        gl_Position = projection * view * uModel * vec4(position, 1.0);
 }

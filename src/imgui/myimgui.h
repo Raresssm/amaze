@@ -39,8 +39,8 @@ namespace ImGui {
 
 		// Setup Platform/Renderer bindings
 		ImGui_ImplSDL2_InitForOpenGL(window, context);
-		ImGui_ImplOpenGL3_Init("#version 330");
-	}
+                ImGui_ImplOpenGL3_Init("#version 150 core");
+        }
 
 	template<typename F>
 	void RenderFrame(SDL_Window *window, const F &drawFunction)
