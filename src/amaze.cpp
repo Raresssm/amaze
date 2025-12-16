@@ -2,6 +2,8 @@
 #include "imgui/myimgui.h"
 #include "opengl/geometry.h"
 
+#include <algorithm>
+
 using namespace gl;
 using namespace glm;
 
@@ -62,9 +64,10 @@ void Amaze::drawGrid()
 {
 	glUseProgram(m_gridShader->program());
 
-	m_gridShader->setMat4("view", mat4(1.0f));
-	m_gridShader->setMat4("projection", scene()->camera.projection());
-	m_gridShader->setMat4("uModel", mat4(1.0f));
+        m_gridShader->setMat4("view", mat4(1.0f));
+        m_gridShader->setMat4("projection", scene()->camera.projection());
+        m_gridShader->setMat4("uModel", mat4(1.0f));
+        m_gridShader->setMat3("normalMatrix", mat3(1.0f));
 
 	glBindVertexArray(m_grid->VAO);
 
@@ -75,10 +78,12 @@ void Amaze::drawGrid()
 
 void Amaze::drawWalls()
 {
-	glUseProgram(m_wallShader->program());
+        glUseProgram(m_wallShader->program());
 
-	m_wallShader->setMat4("view", mat4(1.0f));
-	m_wallShader->setMat4("projection", scene()->camera.projection());
+        m_wallShader->setMat4("view", mat4(1.0f));
+        m_wallShader->setMat4("projection", scene()->camera.projection());
+        m_wallShader->setMat4("uModel", mat4(1.0f));
+        m_wallShader->setMat3("normalMatrix", mat3(1.0f));
 
 	glBindVertexArray(m_wall->VAO);
 
@@ -92,9 +97,9 @@ void Amaze::drawWalls()
 
 void Amaze::drawMenu()
 {
-	ImGui::RenderFrame(sdlWindow(), [&](){
-		// https://github.com/ocornut/imgui/issues/1657
-		ImGuiIO &io = ImGui::GetIO();
+        ImGui::RenderFrame(sdlWindow(), [&](){
+                // https://github.com/ocornut/imgui/issues/1657
+                ImGuiIO &io = ImGui::GetIO();
 		ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
 			ImGuiCond_Always, ImVec2(0.5f,0.5f));
 
@@ -110,16 +115,24 @@ void Amaze::drawMenu()
 			"RED:  Current Position\n"
 			"BLUE: Maze Exit");
 
-		ImGui::Separator();
+                ImGui::Separator();
 
-		ImGui::InputInt("Nx", &Nx);
-		ImGui::InputInt("Ny", &Ny);
+                ImGui::InputInt("Nx", &Nx);
+                ImGui::InputInt("Ny", &Ny);
 
-		ImGui::Checkbox("Central Square", &centralSquare);
-		ImGui::InputInt("Size", &centralSquareSize);
+                ImGui::Checkbox("Central Square", &centralSquare);
+                ImGui::InputInt("Size", &centralSquareSize);
 
-		ImGui::End();
-	});
+                bool regenerate = ImGui::Button("Generate Maze") ||
+                        ImGui::IsKeyPressed(ImGuiKey_Enter) ||
+                        ImGui::IsKeyPressed(ImGuiKey_KeypadEnter);
+
+                if (regenerate) {
+                        regenerateMazeFromMenu();
+                }
+
+                ImGui::End();
+        });
 }
 
 void Amaze::processEvent(const SDL_Event &event)
@@ -142,9 +155,15 @@ void Amaze::processEvent(const SDL_Event &event)
 		}
 	}
 
-	if (event.type == SDL_KEYDOWN) {
-		// move;
-		m_maze(m_currentPosition.row, m_currentPosition.col) = CellStates::VISITED;
+        if (event.type == SDL_KEYDOWN) {
+                if (m_showMenu &&
+                    (event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_KP_ENTER)) {
+                        regenerateMazeFromMenu();
+                        return;
+                }
+
+                // move;
+                m_maze(m_currentPosition.row, m_currentPosition.col) = CellStates::VISITED;
 
 		int cellIndex = m_currentPosition.row * Ny + m_currentPosition.col;
 
@@ -183,8 +202,22 @@ void Amaze::processEvent(const SDL_Event &event)
 
 		if (m_currentPosition == m_mazeEnd) {
 			initMaze();
-		}
-	}
+        }
+}
+
+void Amaze::clampMenuInputs()
+{
+        Nx = std::max(2, Nx);
+        Ny = std::max(2, Ny);
+        centralSquareSize = std::max(1, centralSquareSize);
+}
+
+void Amaze::regenerateMazeFromMenu()
+{
+        clampMenuInputs();
+        initMaze();
+        m_showMenu = false;
+}
 }
 
 void Amaze::updateCamera()

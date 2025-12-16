@@ -31,10 +31,13 @@ class Amaze : public gl::OpenGLWindow {
 
 		void drawGrid();
 		void drawWalls();
-		void drawMenu();
+                void drawMenu();
 
-		void initMaze();
-		void updateCamera();
+                void initMaze();
+                void updateCamera();
+
+                void clampMenuInputs();
+                void regenerateMazeFromMenu();
 
 		void createGridColorBuffer();
 		void updateGridColorBuffer();

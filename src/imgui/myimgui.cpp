@@ -16,7 +16,7 @@ void ImGui::Init(SDL_Window *window, const SDL_GLContext &context)
 
 	// Setup Platform/Renderer bindings
 	ImGui_ImplSDL2_InitForOpenGL(window, context);
-	ImGui_ImplOpenGL3_Init("#version 120");
+        ImGui_ImplOpenGL3_Init("#version 330 core");
 }
 
 void ImGui::ProcessEvent(const SDL_Event &event)

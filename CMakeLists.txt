@@ -28,6 +28,10 @@ target_link_libraries(amaze
         GLEW::GLEW
 )
 
+if(APPLE)
+    target_compile_definitions(amaze PRIVATE GL_SILENCE_DEPRECATION)
+endif()
+
 # ---------- Shader copy ----------
 add_custom_command(TARGET amaze POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
