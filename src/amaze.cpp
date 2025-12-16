@@ -2,6 +2,8 @@
 #include "imgui/myimgui.h"
 #include "opengl/geometry.h"
 
+#include <algorithm>
+
 using namespace gl;
 using namespace glm;
 
@@ -95,9 +97,9 @@ void Amaze::drawWalls()
 
 void Amaze::drawMenu()
 {
-	ImGui::RenderFrame(sdlWindow(), [&](){
-		// https://github.com/ocornut/imgui/issues/1657
-		ImGuiIO &io = ImGui::GetIO();
+        ImGui::RenderFrame(sdlWindow(), [&](){
+                // https://github.com/ocornut/imgui/issues/1657
+                ImGuiIO &io = ImGui::GetIO();
 		ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f),
 			ImGuiCond_Always, ImVec2(0.5f,0.5f));
 
@@ -113,16 +115,29 @@ void Amaze::drawMenu()
 			"RED:  Current Position\n"
 			"BLUE: Maze Exit");
 
-		ImGui::Separator();
+                ImGui::Separator();
 
-		ImGui::InputInt("Nx", &Nx);
-		ImGui::InputInt("Ny", &Ny);
+                ImGui::InputInt("Nx", &Nx);
+                ImGui::InputInt("Ny", &Ny);
 
-		ImGui::Checkbox("Central Square", &centralSquare);
-		ImGui::InputInt("Size", &centralSquareSize);
+                ImGui::Checkbox("Central Square", &centralSquare);
+                ImGui::InputInt("Size", &centralSquareSize);
 
-		ImGui::End();
-	});
+                bool regenerate = ImGui::Button("Generate Maze") ||
+                        ImGui::IsKeyPressed(ImGuiKey_Enter) ||
+                        ImGui::IsKeyPressed(ImGuiKey_KeypadEnter);
+
+                Nx = std::max(2, Nx);
+                Ny = std::max(2, Ny);
+                centralSquareSize = std::max(1, centralSquareSize);
+
+                if (regenerate) {
+                        initMaze();
+                        m_showMenu = false;
+                }
+
+                ImGui::End();
+        });
 }
 
 void Amaze::processEvent(const SDL_Event &event)
