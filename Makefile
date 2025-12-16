@@ -25,6 +25,12 @@ BIN = amaze
 
 BINDEPS = sdl2 glew
 
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+        CXXFLAGS += -DGL_SILENCE_DEPRECATION
+        LDFLAGS += -framework Cocoa -framework IOKit -framework CoreVideo -framework OpenGL
+endif
+
 BUILDFLAGS =  -pthread -O3 -flto -fopenmp -Wall -std=c++17
 LDFLAGS = $(shell $(PKG_CONFIG) --libs $(BINDEPS))
 CFLAGS = $(shell $(PKG_CONFIG) --cflags $(BINDEPS))
